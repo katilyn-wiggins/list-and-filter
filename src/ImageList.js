@@ -6,7 +6,7 @@ import images from './images.js';
 export default class ImageList extends React.Component {
     render() {
 
-        const imageLayout =
+        const ListLayout =
             images.map(
                 singleimageObject =>
 
@@ -16,7 +16,9 @@ export default class ImageList extends React.Component {
 
         return (
             <>
-                { imageLayout}
+                <ul class="list-layout">
+                    {ListLayout}
+                </ul>
             </>
         )
     }
