@@ -6,9 +6,6 @@ import Header from './Header.js';
 import Dropdown from './Dropdown.js';
 
 
-
-
-
 export default class App extends React.Component {
   state = {
     keyword: '',
@@ -75,12 +72,26 @@ export default class App extends React.Component {
       if (((image.keyword === keyword) &&
       (image.magicpowers === magicpowers) &&
         (image.horns === Number(horns)))) return true;
-        
 
 
       return false;
 
     });
+
+    const keywordOptions = []
+    images.map(image => {
+      if(!keywordOptions.includes(image.keyword)) keywordOptions.push(image.keyword)
+    })
+
+    const hornsOptions = []
+    images.map(image => {
+      if(!hornsOptions.includes(image.horns)) hornsOptions.push(image.horns)
+    })
+
+    const magicOptions = []
+    images.map(image => {
+      if(!magicOptions.includes(image.magicpowers)) magicOptions.push(image.magicpowers)
+    })
 
 
     return (
@@ -95,8 +106,8 @@ export default class App extends React.Component {
           currentValue = {this.state.keyword}
 
           handleChange = {this.handleKeywordChange}
-          options = {[ 'narwhal', 'rhino', 'unicorn', 'unilego', 'triceritops', 'markhor', 'mouflon', 'addax', 'chameleon', 'lizzard', 'dragon']}
-        />
+          options = {keywordOptions}
+          />
 
         <div>
           How many horns are you looking for?
@@ -104,7 +115,7 @@ export default class App extends React.Component {
           currentValue = {this.state.horns}
 
           handleChange = {this.handleHornsChange}
-          options = {[ 1, 2, 3, 100 ]}
+          options = {hornsOptions}
         />
         </div>
 
@@ -115,7 +126,7 @@ export default class App extends React.Component {
           currentValue = {this.state.magicpowers}
 
           handleChange = {this.handleMagicPowersChange}
-          options = {[ 'yes', 'no' ]}
+          options = {magicOptions}
         />
         </div>
 
