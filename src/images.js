@@ -60,7 +60,7 @@ const images = [
         description: "This is actually a figurine but it looks kinda real",
         keyword: "rhino",
         horns: 2,
-        magicpowers: "no",
+        magicpowers: "yes",
     },
     {
         url:

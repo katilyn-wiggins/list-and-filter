@@ -3,9 +3,7 @@ import './App.css';
 import images from './images.js';
 import ImageList from './ImageList.js';
 import Header from './Header.js';
-
-
-
+import Dropdown from './Dropdown.js';
 
 
 export default class App extends React.Component {
@@ -15,23 +13,85 @@ export default class App extends React.Component {
     magicpowers: '',
   }
 
+  handleKeywordChange = (e) => {
+    this.setState({
+      keyword: e.target.value
+    })
+  }
+
+  handleHornsChange = (e) => {
+    this.setState({
+      horns: Number(e.target.value)
+    })
+  }
+
+  handleMagicPowersChange = (e) => {
+    this.setState({
+      magicpowers: e.target.value
+    })
+  }
+
 
   render() {
+    const { keyword, horns, magicpowers } = this.state; 
 
     const filteredAnimals = images.filter((image) => {
-      if (!this.state.keyword) return true;
-      if (!this.state.horns) return true;
-      if (!this.state.magicpowers) return true;
+      if (!keyword && !horns && !magicpowers) return true;
+      
+      if (keyword && !horns && !magicpowers) {
+        if(image.keyword === keyword) return true; 
+      }
 
-      if (((image.keyword === this.state.keyword) &&
-      (image.magicpowers === this.state.magicpowers) &&
-        (image.horns === Number(this.state.horns)))) return true;
-        
+      if (!keyword && horns && !magicpowers) {
+        if(image.horns === horns) return true; 
+      }
+
+      if (!keyword && !horns && magicpowers) {
+        if(image.magicpowers === magicpowers) return true; 
+      }
+      
+      if (keyword && horns && !magicpowers) {
+        if(image.keyword === keyword && image.horns === horns) return true; 
+      }
+      
+      if (keyword && !horns && magicpowers) {
+        if(image.keyword === keyword && image.magicpowers === magicpowers) return true; 
+      }
+      if (!keyword && horns && magicpowers) {
+        if(image.horns === horns && image.magicpowers === magicpowers) return true; 
+      }
+
+      if (keyword && horns && !magicpowers) {
+        if(image.horns === horns && image.magicpowers === magicpowers) return true; 
+      }
+
+      if (!keyword && horns && magicpowers) {
+        if(image.horns === horns && image.magicpowers === magicpowers) return true; 
+      }
+
+      if (((image.keyword === keyword) &&
+      (image.magicpowers === magicpowers) &&
+        (image.horns === Number(horns)))) return true;
 
 
       return false;
 
     });
+
+    const keywordOptions = []
+    images.map(image => {
+      if(!keywordOptions.includes(image.keyword)) keywordOptions.push(image.keyword)
+    })
+
+    const hornsOptions = []
+    images.map(image => {
+      if(!hornsOptions.includes(image.horns)) hornsOptions.push(image.horns)
+    })
+
+    const magicOptions = []
+    images.map(image => {
+      if(!magicOptions.includes(image.magicpowers)) magicOptions.push(image.magicpowers)
+    })
 
 
     return (
@@ -42,75 +102,37 @@ export default class App extends React.Component {
         <span>
           Which type of animal are you insterested in? 
         </span>
-        <select
+        <Dropdown
+          currentValue = {this.state.keyword}
 
-          value={this.state.keyword}
-          onChange={(e) => {
-            this.setState({
-              keyword: e.target.value
-
-            })
-          }}
-        >
-
-          <option value="narwhal">Narwhal</option>
-          <option value="rhino">Rhino</option>
-          <option value="unicorn">Unicorn</option>
-          <option value="unilego">Unilego</option>
-          <option value="triceritops">Triceritops</option>
-          <option value="markhor">Markhor</option>
-          <option value="mouflon">Mouflon</option>
-          <option value="addax">Addax</option>
-          <option value="chameleon">Chameleon</option>
-          <option value="lizard">Lizard</option>
-          <option value="dragon">Dragon</option>
-
-        </select>
+          handleChange = {this.handleKeywordChange}
+          options = {keywordOptions}
+          />
 
         <div>
           How many horns are you looking for?
-        
-        <select
+          <Dropdown
+          currentValue = {this.state.horns}
 
-          value={this.state.horns}
-          onChange={(e) => {
-            this.setState({
-              horns: e.target.value
-
-            })
-          }}
-        >
-
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="100">100</option>
-
-        </select>
+          handleChange = {this.handleHornsChange}
+          options = {hornsOptions}
+        />
         </div>
 
         <div>
           Do you want it to have magical powers?
-       
-        <select
+         
+          <Dropdown
+          currentValue = {this.state.magicpowers}
 
-          value={this.state.magicpowers}
-          onChange={(e) => {
-            this.setState({
-              magicpowers: e.target.value
-
-            })
-          }}
-        >
-
-          <option value="yes">yes</option>
-          <option value="no">no</option>
-
-        </select>
+          handleChange = {this.handleMagicPowersChange}
+          options = {magicOptions}
+        />
         </div>
 
-        <ImageList images={filteredAnimals} />
+        
         </section>
+        <ImageList images={filteredAnimals} />
 
       </div>)
 
